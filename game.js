@@ -35,6 +35,9 @@ function playRound(playerSelection, computerSelection) {
         return "Wrong Choice";
     }
 
+    console.log(`Player's choice: ${playerSelection}`);
+    console.log(`Computer's choice: ${computerSelection}`);
+
     switch (playerSelection) {
         case "Rock":
             switch (computerSelection) {
