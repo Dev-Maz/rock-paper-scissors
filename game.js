@@ -1,3 +1,5 @@
+game();
+
 function getComputerChoice() {
     let randomNumber = Math.floor(Math.random() * 3);
     switch (randomNumber) {
@@ -42,13 +44,13 @@ function playRound(playerSelection, computerSelection) {
         case "Rock":
             switch (computerSelection) {
                 case "Rock":
-                    return "Tie!";
+                    return " Tie!";
                     break;
                 case "Paper":
-                    return `You lose! ${computerSelection} beats ${playerSelection}`;
+                    return `2You lose! ${computerSelection} beats ${playerSelection}`;
                     break;
                 case "Scissors":
-                    return `You win! ${playerSelection} beats ${computerSelection}`;
+                    return `1You win! ${playerSelection} beats ${computerSelection}`;
                     break;
             }
             break;
@@ -56,13 +58,13 @@ function playRound(playerSelection, computerSelection) {
         case "Paper":
             switch (computerSelection) {
                 case "Rock":
-                    return `You win! ${playerSelection} beats ${computerSelection}`;
+                    return `1You win! ${playerSelection} beats ${computerSelection}`;
                     break;
                 case "Paper":
-                    return "Tie!";
+                    return " Tie!";
                     break;
                 case "Scissors":
-                    return `You lose! ${computerSelection} beats ${playerSelection}`;
+                    return `2You lose! ${computerSelection} beats ${playerSelection}`;
                     break;
             }
             break;
@@ -70,15 +72,50 @@ function playRound(playerSelection, computerSelection) {
         case "Scissors":
             switch (computerSelection) {
                 case "Rock":
-                    return `You lose! ${computerSelection} beats ${playerSelection}`;
+                    return `2You lose! ${computerSelection} beats ${playerSelection}`;
                     break;
                 case "Paper":
-                    return `You win! ${playerSelection} beats ${computerSelection}`;
+                    return `1You win! ${playerSelection} beats ${computerSelection}`;
                     break;
                 case "Scissors":
-                    return "Tie!";
+                    return " Tie!";
                     break;
             }
             break;
+    }
+}
+
+function game() {
+    let rounds = 0,
+        playerScore = 0,
+        computerScore = 0;
+    while (rounds < 5) {
+        console.log(`Round ${rounds + 1}`);
+        let result = playRound(getPlayerChoice(), getComputerChoice());
+
+        if (result === "Canceled") {
+            console.log("You canceled the game");
+            return;
+        } else if (result === "Wrong Choice") {
+            console.log("You entered a wrong choice\nCanceling the game");
+            return;
+        }
+
+        if (result.charAt(0) === "1") {
+            playerScore++;
+        } else if (result.charAt(0) === "2") {
+            computerScore++;
+        }
+        console.log(result.slice(1));
+        rounds++;
+    }
+
+    console.log(`Game Results\nPlayer's Score: ${playerScore}\nComputer's Score: ${computerScore}`);
+    if (playerScore > computerScore) {
+        console.log("You won the game!");
+    } else if (playerScore < computerScore) {
+        console.log("You lost the game!");
+    } else {
+        console.log("The game ended in a Tie!");
     }
 }
