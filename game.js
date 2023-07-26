@@ -1,5 +1,3 @@
-game();
-
 function getComputerChoice() {
     let randomNumber = Math.floor(Math.random() * 3);
     switch (randomNumber) {
@@ -15,28 +13,8 @@ function getComputerChoice() {
     }
 }
 
-function getPlayerChoice() {
-    let choice = prompt("Type: R for Rock, P for Paper, S for Scissors");
-    if (choice === null) {
-        return "Canceled";
-    } else if (choice.toLowerCase() === "r") {
-        return "Rock";
-    } else if (choice.toLowerCase() === "p") {
-        return "Paper";
-    } else if (choice.toLowerCase() === "s") {
-        return "Scissors";
-    } else {
-        return "Wrong Choice";
-    }
-}
-
+// Refactored Code
 function playRound(playerSelection, computerSelection) {
-    if (playerSelection === "Canceled") {
-        return "Canceled";
-    } else if (playerSelection === "Wrong Choice") {
-        return "Wrong Choice";
-    }
-
     console.log(`Player's choice: ${playerSelection}`);
     console.log(`Computer's choice: ${computerSelection}`);
 
@@ -85,37 +63,39 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-function game() {
-    let rounds = 0,
-        playerScore = 0,
-        computerScore = 0;
-    while (rounds < 5) {
-        console.log(`Round ${rounds + 1}`);
-        let result = playRound(getPlayerChoice(), getComputerChoice());
+// Refactored Code
+function game(playerSelection) {
+    let result = playRound(playerSelection, getComputerChoice());
 
-        if (result === "Canceled") {
-            console.log("You canceled the game");
-            return;
-        } else if (result === "Wrong Choice") {
-            console.log("You entered a wrong choice\nCanceling the game");
-            return;
-        }
-
-        if (result.charAt(0) === "1") {
-            playerScore++;
-        } else if (result.charAt(0) === "2") {
-            computerScore++;
-        }
-        console.log(result.slice(1));
-        rounds++;
+    if (result.charAt(0) === "1") {
+        const playerScoreDiv = document.querySelector('#player');
+        playerScoreDiv.textContent = `Player's Score: ${++playerScore}`;
+    } else if (result.charAt(0) === "2") {
+        const computerScoreDiv = document.querySelector('#computer');
+        computerScoreDiv.textContent = `Computer's Score: ${++computerScore}`;
     }
 
-    console.log(`Game Results\nPlayer's Score: ${playerScore}\nComputer's Score: ${computerScore}`);
-    if (playerScore > computerScore) {
-        console.log("You won the game!");
-    } else if (playerScore < computerScore) {
-        console.log("You lost the game!");
-    } else {
-        console.log("The game ended in a Tie!");
-    }
+    displayResult(result.slice(1));
+
+    const roundDiv = document.querySelector('#round');
+    roundDiv.textContent = `Round ${++rounds}`;
+}
+
+// New Code
+let rounds = 1,
+    playerScore = 0,
+    computerScore = 0;
+
+const rockBtn = document.querySelector('#rock');
+rockBtn.addEventListener('click', () => game('Rock'));
+
+const paperBtn = document.querySelector('#paper');
+paperBtn.addEventListener('click', () => game('Paper'));
+
+const scissorsBtn = document.querySelector('#scissors');
+scissorsBtn.addEventListener('click', () => game('Scissors'));
+
+function displayResult(result) {
+    const resultDiv = document.querySelector('#result');
+    resultDiv.textContent = result;
 }
